@@ -81,10 +81,8 @@ const AuthRequestScreen = ({route, navigation}) => {
 
     let authData = AuthorizationService.processAuthRequest(route.params);
     console.log("new auth", authData.binding_message);
-    //authData.binding_message ="DONT PAY";
     let consentData = ConsentService.processConsentData(authData);
     let metadata = JSON.parse(authData.metadata);
-    //let consentData = metadata.consentData;
     let application = metadata.application; //check if it is equal with authData.applicationName
     let accounts = metadata.accounts;
     let type = metadata.type;
@@ -99,10 +97,6 @@ const AuthRequestScreen = ({route, navigation}) => {
         return account;
     });
 
-    // accounts = accounts.map((data)=> {
-    //     return { "checked": false, "account_id": data.account_id, "display_name": data.display_name}
-    // })  
-
     accounts = consentData.accounts.map((data)=> {
         return { "checked": false, "account_id": data.account_id, "display_name": data.display_name}
     })
@@ -114,13 +108,10 @@ const AuthRequestScreen = ({route, navigation}) => {
         const approved_account_ids=[];
         checkboxes.map((account_checkbox) =>{
         if(account_checkbox.checked=== true){
-            // approved_account_ids.push(account_checkbox.account_id);
             consentData.approvedAccountIds.push(account_checkbox.account_id);
         }
         });
-        // console.log("approved_account_ids: " + JSON.stringify(approved_account_ids));
         console.log("Modified approved_account_ids: " + JSON.stringify(consentData.approvedAccountIds));
-        // return approved_account_ids;
         return consentData.approvedAccountIds;
     }
       
@@ -150,26 +141,6 @@ const AuthRequestScreen = ({route, navigation}) => {
         );
     });
 
-    // let organizedConsentData = {"permissions": [], "expiration": {} };
-    // consentData.map(function(element, index){
-    //     if (element.title ==="Permissions"){
-    //         organizedConsentData.permissions = element.data;
-    //     }
-    //     if (element.title ==="Expiration Date Time"){
-    //         organizedConsentData.expiration = element.data[0];
-    //         let timestamp = Date.parse(organizedConsentData.expiration);
-    //         let dateObject = new Date(timestamp);
-
-    //         organizedConsentData.expiration = {
-    //             "date": dateObject.toDateString(),
-    //             "time": dateObject.toTimeString().split(" ")[0]
-    //         }
-    //     }
-    // });
-
-    // let permissionList = organizedConsentData.permissions.map((element) => {
-    //     return (<Text style={styles.infoCardTextSmall}>- {element}</Text>)
-    // })
 
     let permissionList = consentData.permissions.map((element) => {
         return (<Text style={styles.infoCardTextSmall}>- {element}</Text>)
@@ -304,20 +275,6 @@ const AuthRequestScreen = ({route, navigation}) => {
                                     source={require('../assets/img/material-location.png')}
                                     style={styles.infoCardImage}
                                 /> */}
-
-{/*                                 
-                                <View style={styles.infoCardTextView}>
-                                    <Text style={styles.infoCardTextBig}>Requesting the following permissions until</Text>
-                                    <Text style={styles.infoCardTextSmall}> Date : {organizedConsentData.expiration.date}</Text>
-                                    <Text style={styles.infoCardTextSmall}> Time : {organizedConsentData.expiration.time}</Text>
-                                    <View> 
-                                        <Text style={styles.infoCardTextSmall}> Permissions : </Text>
-                                        {permissionList}
-                                    </View>
-                                    <Text style={[styles.infoCardTextBig, {marginTop:'10%', marginBottom: '0%'}]}>{checBoxesView}</Text>
-                                    <Text style={styles.infoCardTextSmall}/>
-                                    
-                                </View> */}
 
                                 <View style={styles.infoCardTextView}>
                                     <Text style={styles.infoCardTextBig}>Requesting the following permissions until</Text>
